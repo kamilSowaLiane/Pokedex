@@ -4,4 +4,4 @@ fetch(url)
 .then(data => data.json())
 .then(jsonObject => {
     console.log(jsonObject)
-})
+}) 
