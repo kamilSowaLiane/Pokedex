@@ -16,7 +16,7 @@ fetch(url)
             for (let i = 0; i < pokemon.types.length; i++) {
               createType(pokemon.types[i].type.name);
             }
-            const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat );
+            const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id );
             createCard(pokeInfo);          
             container.innerHTML = out; 
         })
@@ -36,8 +36,14 @@ function createCard(pokeInfo) {
                 <div><img src="img/heart.png"><p>${pokeInfo[8]} ${pokeInfo[9]}</p></div>
             </div>
             <div class="types">
-                ${typesOut}
+                <p>Type:</p>
+                <div class="typeValues">${typesOut}</div>
             </div>
+            <div class="misc">
+                <img src="img/weight.png"><p>Weight: ${pokeInfo[11] / 10} kg</p>
+                <img src="img/height.png"><p>Height: ${pokeInfo[10] / 10} m</p>
+            </div>
+            <div class="id">${pokeInfo[12]}</div>
         </div>
     `
 }

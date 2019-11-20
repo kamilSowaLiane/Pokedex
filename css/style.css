@@ -3,6 +3,10 @@
     padding: 0;
     box-sizing: border-box;
     font-size: 32px;
+    font-family: 'Lato', 'sans-serif';
+}
+body {
+    background-color: #333333;
 }
 #wrapper {
     display: flex;
@@ -61,6 +65,7 @@
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    background-color: white;
 }
 .card h1 {
     text-align: center;
@@ -96,6 +101,66 @@
     text-transform: uppercase;
     letter-spacing: -1px;
     font-size: 24px;
+    padding-top: 10px;
+}
+.types p{
+    font-size: 0.75em;
+    width: fit-content;
+    margin: 0 auto 0 auto;
+}
+.typeValues {
+    display: flex;
+    justify-content: space-evenly;
+}
+.bug {background-color: #A8b820;}
+.dark {background-color: #705848;}
+.normal {background-color: #a8a878;}
+.fire {background-color: #f08030;}
+.dragon {background-color: #7038f8;}
+.flying {background-color: #a890f0;}
+.electric {background-color: #f8d030;}
+.fairy {background-color: #ee99ac;}
+.fighting {background-color: #c03028;}
+.ghost {background-color: #705898;}
+.poison {background-color: #a040a0;}
+.grass {background-color: #78c850;}
+.ground {background-color: #e0c068;}
+.ice {background-color: #98d8d8;}
+.steel {background-color: #b8b8d0;}
+.psychic {background-color: #f85888;}
+.rock {background-color: #b8a038;}
+.water {background-color: #6890f0;}
+.typeValues p {
+    padding: 3px 15px 3px 15px;
+    border-radius: 15px;
+}
+.misc {
+    display: flex;
+    padding-top: 20px;
+    width: 300px;
+}
+.misc img {
+    height: 20px;
+    padding-left: 20px;
+}
+.misc p{
+    font-size: 0.5em;
+    height: fit-content;
+    width: fit-content;
+    padding-top: 3px;
+}
+.id {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    background-color: black;
+    border-radius: 23px;
+    color: white;
+    font-size: 0.75em;
+    display: flex;
+    justify-content: space-evenly;
     padding-top: 10px;
 }
 @media (max-width: 1280px) {
