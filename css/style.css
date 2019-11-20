@@ -64,13 +64,39 @@
 }
 .card h1 {
     text-align: center;
+    text-transform: capitalize;
     color: white;
     background-color: black;
     border-radius: 22px 22px 0 0;
 }
-.card img:first-of-type {
+.card>img {
+    margin-left: calc(50% - 72px);
     width: 144px;
     height: 144px;
+}
+.stats {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    height: 120px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+.stats img {
+    width: 45px;
+    height: 45px;
+}
+.stats div {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+}
+.stats div p {
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    font-size: 24px;
+    padding-top: 10px;
 }
 @media (max-width: 1280px) {
     #logo img {
