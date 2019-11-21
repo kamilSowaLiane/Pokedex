@@ -1,6 +1,6 @@
 const container = document.querySelector('#container');
 const pagination = 8;
-const url = "https://pokeapi.co/api/v2/pokemon/?limit=" + pagination +"&offset=" + 50*pagination;
+const url = "https://pokeapi.co/api/v2/pokemon/?limit=" + pagination +"&offset=" + 0*pagination;
 var typesOut;
 var counter = 0;
 console.log(url);
@@ -14,13 +14,15 @@ fetch(url)
         .then(pokemon => {
             console.log(pokemon);
             typesOut = '';
-            for (let i = 0; i < pokemon.types.length; i++) {
+            for (let i = pokemon.types.length - 1; i >= 0; i--) {
               createType(pokemon.types[i].type.name);
             }
             const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id );
             createCard(pokeInfo);          
             container.innerHTML = out;
-            checkType();
+            if (i == pagination -1) {
+                checkType();
+            }
         })
     }
 })
@@ -56,18 +58,20 @@ function createType(pokeType) {
 }
 
 function checkType() {
-var cards = document.querySelectorAll('.types');
-var cardType = cards[counter].children[1].firstElementChild.textContent; 
-var typeArr = ['bug', 'dark', 'normal', 'fire', 'dragon', 'flying', 'electric', 'fairy', 'fighting', 'ghost', 'poison', 'grass', 'ground', 'ice', 'steel', 'psychic', 'rock', 'water'];
-    for (let i = 0; i < typeArr.length; i++) {
-        if (cardType == typeArr[i]) {
-            var h1 = cards[counter].parentElement.firstElementChild;
-            var idCircle = cards[counter].parentElement.lastElementChild;
-            h1.classList.add(typeArr[i]);
-            idCircle.classList.add(typeArr[i]);
-            console.log(h1);
-            break;
+    var cards = document.querySelectorAll('.types');
+    Array.from(cards).forEach(card => {
+        var cardType = card.children[1].firstElementChild.textContent; 
+        console.log(cardType)
+        var typeArr = ['bug', 'dark', 'normal', 'fire', 'dragon', 'flying', 'electric', 'fairy', 'fighting', 'ghost', 'poison', 'grass', 'ground', 'ice', 'steel', 'psychic', 'rock', 'water'];
+        for (let i = 0; i < typeArr.length; i++) {
+            if (cardType == typeArr[i]) {
+                var h1 = card.parentElement.firstElementChild;
+                var idCircle = card.parentElement.lastElementChild;
+                h1.classList.add(typeArr[i]);
+                idCircle.classList.add(typeArr[i]);
+                console.log(h1);
+                break;
+            }
         }
-    }
-    counter ++;
+    })
 }
