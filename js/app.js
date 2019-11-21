@@ -1,34 +1,39 @@
 const container = document.querySelector('#container');
 const pagination = 8;
-const url = "https://pokeapi.co/api/v2/pokemon/?limit=" + pagination +"&offset=" + 0*pagination;
+const url = "https://pokeapi.co/api/v2/pokemon/?limit=" + pagination + "&offset=" + 46 * pagination;
 var typesOut;
 var counter = 0;
+let loader = `<div class="loader-wrapper"><div class="loader-text">Loading...</div><span class="loader"><span class="loader-inner"></span></span></div>`
+container.innerHTML = loader;
 console.log(url);
 fetch(url)
-.then(data => data.json())
-.then(jsonObject => {
-    console.log(jsonObject)
-    for(let i = 0; i < pagination; i++) {
-        fetch(jsonObject.results[i].url)
-        .then(pokeData => pokeData.json())
-        .then(pokemon => {
-            console.log(pokemon);
-            typesOut = '';
-            for (let i = pokemon.types.length - 1; i >= 0; i--) {
-              createType(pokemon.types[i].type.name);
-            }
-            const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id );
-            createCard(pokeInfo);          
-            container.innerHTML = out;
-            if (i == pagination -1) {
-                checkType();
-            }
-        })
-    }
-})
+    .then(data => data.json())
+    .then(jsonObject => {
+        for (let i = 0; i < pagination; i++) {
+            const promise = fetch(jsonObject.results[i].url);
+            promise
+                .then(pokeData => pokeData.json())
+                .then(pokemon => {
+                    typesOut = '';
+                    for (let i = pokemon.types.length - 1; i >= 0; i--) {
+                        createType(pokemon.types[i].type.name);
+                    }
+                    const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id);
+                    createCard(pokeInfo);
+                })
+                .then(v => {
+                    container.innerHTML = out;
+                    checkType();
+                })
+            .catch(err => console.error(err));
+        }
+    })
+.catch(err => console.error(err));
+function printPage() {
+    
+}
 var out = '';
-function createCard(pokeInfo) {
-    console.log(pokeInfo);
+async function createCard(pokeInfo) {
     out += `
         <div class="card">
             <h1>${pokeInfo[0]}</h1>
@@ -57,19 +62,16 @@ function createType(pokeType) {
     `
 }
 
-function checkType() {
+async function checkType() {
     var cards = document.querySelectorAll('.types');
     Array.from(cards).forEach(card => {
-        var cardType = card.children[1].firstElementChild.textContent; 
-        console.log(cardType)
+        var cardType = card.children[1].firstElementChild.textContent;
         var typeArr = ['bug', 'dark', 'normal', 'fire', 'dragon', 'flying', 'electric', 'fairy', 'fighting', 'ghost', 'poison', 'grass', 'ground', 'ice', 'steel', 'psychic', 'rock', 'water'];
         for (let i = 0; i < typeArr.length; i++) {
             if (cardType == typeArr[i]) {
-                var h1 = card.parentElement.firstElementChild;
-                var idCircle = card.parentElement.lastElementChild;
-                h1.classList.add(typeArr[i]);
-                idCircle.classList.add(typeArr[i]);
-                console.log(h1);
+                card.parentElement.firstElementChild.classList.add(typeArr[i]);
+                card.parentElement.lastElementChild.classList.add(typeArr[i]);
+                card.parentElement.classList.add(typeArr[i] + '2');
                 break;
             }
         }

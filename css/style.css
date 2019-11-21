@@ -54,13 +54,15 @@ body {
     top: 10%;
     right: 0%;
     width: 80%;
+    height: 0;
+    padding-bottom: 40%;
 }
 .card {
     position: relative;
     margin: 5px 15px;
     width: 350px;
     height: 420px;
-    border: 2px solid black;
+    border: 3px solid black;
     border-radius: 25px;
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
@@ -112,30 +114,48 @@ body {
     justify-content: space-evenly;
 }
 .bug {background-color: #A8b820;}
+.bug2 {background-color: #dbeb53; border-color: #758500;}
 .dark {background-color: #705848;}
+.dark2 {background-color: #a38b7b; border-color: #402515;}
 .normal {background-color: #a8a878;}
+.normal2 {background-color: #dbdbab; border-color: #757545;}
 .fire {background-color: #f08030;}
+.fire2 {background-color: #f3b363; border-color: #c05000;}
 .dragon {background-color: #7038f8;}
+.dragon2 {background-color: #a36bfb; border-color: #4005c5;}
 .flying {background-color: #a890f0;}
+.flying2 {background-color: #dbc3f3; border-color: #7560c0; }
 .electric {background-color: #f8d030;}
+.electric2 {background-color: #fbf363; border-color: #c5a000;}
 .fairy {background-color: #ee99ac;}
+.fairy2 {background-color: #ffccdf; border-color: #bb6679;}
 .fighting {background-color: #c03028;}
+.fighting2 {background-color: #f3635b; border-color: #900005;}
 .ghost {background-color: #705898;}
+.ghost2 {background-color: #a38bcb; border-color: #402565;}
 .poison {background-color: #a040a0;}
+.poison2 {background-color: #d373d3; border-color: #701070;}
 .grass {background-color: #78c850;}
+.grass2 {background-color: #abfb83; border-color: #459520;}
 .ground {background-color: #e0c068;}
+.ground2 {background-color: #f3f39b; border-color: #b09035;}
 .ice {background-color: #98d8d8;}
+.ice2 {background-color: #cbfbfb; border-color: #65a5a5;}
 .steel {background-color: #b8b8d0;}
+.steel2 {background-color: #ebebf3; border-color: #8585a0;}
 .psychic {background-color: #f85888;}
+.psychic2 {background-color: #fb8bbb; border-color: #c52333;}
 .rock {background-color: #b8a038;}
+.rock2 {background-color: #ebd36b; border-color: #857005;}
 .water {background-color: #6890f0;}
+.water2 {background-color: #9bc3f3; border-color: #3560c0;}
 .typeValues p {
     padding: 3px 15px 3px 15px;
     border-radius: 15px;
 }
 .misc {
     display: flex;
-    padding-top: 20px;
+    padding-top: 17px;
     width: 300px;
 }
 .misc img {
@@ -161,6 +181,50 @@ body {
     justify-content: space-evenly;
     padding-top: 10px;
 }
+.loader-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .loader-text {
+      color: white;
+      padding-bottom: 25px;
+  }
+  .loader {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    border: 4px solid #Fff;
+    animation: loader 2s infinite ease;
+  }
+  .loader-inner {
+    vertical-align: top;
+    display: inline-block;
+    width: 100%;
+    background-color: #fff;
+    animation: loader-inner 2s infinite ease-in;
+  }
+  @keyframes loader {
+    0% { transform: rotate(0deg);}
+    25% { transform: rotate(180deg);}
+    50% { transform: rotate(180deg);}
+    75% { transform: rotate(360deg);}
+    100% { transform: rotate(360deg);}
+  }
+  @keyframes loader-inner {
+    0% { height: 0%;}
+    25% { height: 0%;}
+    50% { height: 100%;}
+    75% { height: 100%;}
+    100% { height: 0%;}
+  }
 @media (max-width: 1280px) {
     #logo img {
         margin-top: 5%;
