@@ -1,7 +1,8 @@
 const container = document.querySelector('#container');
 const pagination = 8;
-const url = "https://pokeapi.co/api/v2/pokemon/?limit=" + pagination +"&offset=" + 0*pagination;
+const url = "https://pokeapi.co/api/v2/pokemon/?limit=" + pagination +"&offset=" + 50*pagination;
 var typesOut;
+var counter = 0;
 console.log(url);
 fetch(url)
 .then(data => data.json())
@@ -18,7 +19,8 @@ fetch(url)
             }
             const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id );
             createCard(pokeInfo);          
-            container.innerHTML = out; 
+            container.innerHTML = out;
+            checkType();
         })
     }
 })
@@ -51,4 +53,21 @@ function createType(pokeType) {
     typesOut += `
         <p class="${pokeType}">${pokeType}</p>
     `
+}
+
+function checkType() {
+var cards = document.querySelectorAll('.types');
+var cardType = cards[counter].children[1].firstElementChild.textContent; 
+var typeArr = ['bug', 'dark', 'normal', 'fire', 'dragon', 'flying', 'electric', 'fairy', 'fighting', 'ghost', 'poison', 'grass', 'ground', 'ice', 'steel', 'psychic', 'rock', 'water'];
+    for (let i = 0; i < typeArr.length; i++) {
+        if (cardType == typeArr[i]) {
+            var h1 = cards[counter].parentElement.firstElementChild;
+            var idCircle = cards[counter].parentElement.lastElementChild;
+            h1.classList.add(typeArr[i]);
+            idCircle.classList.add(typeArr[i]);
+            console.log(h1);
+            break;
+        }
+    }
+    counter ++;
 }
