@@ -9,26 +9,32 @@ body {
     background-color: #333333;
 }
 #wrapper {
-    display: flex;
-    flex-direction: column;
     width: calc(100% - 10px);
-    height: fit-content;
     margin: 5px;
 }
 #header {
-    order: 0;
+    position: relative;
     width: 90%;
     height: 75px;
     background-color: black;
     border-radius: 0px 37px 37px 0px;
 }
 #left-panel {
-    height: 0;
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    height: 50%;
     width: 15%;
     background-color: #111111;
-    order: 1;
-    padding-bottom: 40%;
     border-radius: 0 0 135px 135px;
+}
+#paging-nav {
+    position: absolute;
+    top: 50%;
+}
+#paging-nav > button {
+    height: 40px;
+    width: 120px;
 }
 #logo {
     position: absolute;
@@ -54,8 +60,8 @@ body {
     top: 10%;
     right: 0%;
     width: 80%;
-    height: 0;
-    padding-bottom: 40%;
+    height: 90%;
+    transition: 1s;
 }
 .card {
     position: relative;
@@ -191,40 +197,86 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  }
-  .loader-text {
-      color: white;
-      padding-bottom: 25px;
-  }
-  .loader {
+}
+.loader-text {
+    color: white;
+    padding-bottom: 25px;
+}
+.loader {
     display: inline-block;
     width: 30px;
     height: 30px;
     position: relative;
     border: 4px solid #Fff;
     animation: loader 2s infinite ease;
-  }
-  .loader-inner {
+}
+.loader-inner {
     vertical-align: top;
     display: inline-block;
     width: 100%;
     background-color: #fff;
     animation: loader-inner 2s infinite ease-in;
-  }
-  @keyframes loader {
+}
+@keyframes loader {
     0% { transform: rotate(0deg);}
     25% { transform: rotate(180deg);}
     50% { transform: rotate(180deg);}
     75% { transform: rotate(360deg);}
     100% { transform: rotate(360deg);}
-  }
-  @keyframes loader-inner {
+}
+@keyframes loader-inner {
     0% { height: 0%;}
     25% { height: 0%;}
     50% { height: 100%;}
     75% { height: 100%;}
     100% { height: 0%;}
-  }
+}
+/* Search input */
+.search-box {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    background: white;
+    height: 50px;
+    border-radius: 25px;
+    padding: 10px;
+}
+.search-box:hover > .search-btn {
+    background: orangered;
+    color: black;
+}
+   
+.search-btn {
+    width: 45px;
+    height: 45px;
+    margin-top: -7px;
+    font-size: 0.5em;
+    border-radius: 50%;
+    background: #111111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+    color: white;
+    cursor: pointer;
+}
+   
+.search-btn > i {
+    font-size: 30px;
+}
+   
+.search-txt {
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    font-size: 20px;
+    width: 240px;
+    font-weight: bold;
+    line-height: 30px;
+}
 @media (max-width: 1280px) {
     #logo img {
         margin-top: 5%;

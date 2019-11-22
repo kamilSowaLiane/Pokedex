@@ -1,39 +1,52 @@
 const container = document.querySelector('#container');
-const pagination = 8;
-const url = "https://pokeapi.co/api/v2/pokemon/?limit=" + pagination + "&offset=" + 46 * pagination;
+var pagination = 8;
+var page = 0;
 var typesOut;
-var counter = 0;
-let loader = `<div class="loader-wrapper"><div class="loader-text">Loading...</div><span class="loader"><span class="loader-inner"></span></span></div>`
-container.innerHTML = loader;
-console.log(url);
-fetch(url)
-    .then(data => data.json())
-    .then(jsonObject => {
-        for (let i = 0; i < pagination; i++) {
-            const promise = fetch(jsonObject.results[i].url);
-            promise
-                .then(pokeData => pokeData.json())
-                .then(pokemon => {
-                    typesOut = '';
-                    for (let i = pokemon.types.length - 1; i >= 0; i--) {
-                        createType(pokemon.types[i].type.name);
-                    }
-                    const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id);
-                    createCard(pokeInfo);
-                })
-                .then(v => {
-                    container.innerHTML = out;
-                    checkType();
-                })
-            .catch(err => console.error(err));
-        }
-    })
-.catch(err => console.error(err));
-function printPage() {
-    
-}
 var out = '';
-async function createCard(pokeInfo) {
+const loader = `<div class="loader-wrapper"><div class="loader-text">Loading...</div><span class="loader"><span class="loader-inner"></span></span></div>`;
+printPage();
+document.querySelector('#next').addEventListener('click', function () {
+    container.innerHTML = loader;
+    out = '';
+    page++;
+    printPage();
+})
+document.querySelector('#prev').addEventListener('click', function () {
+    if (page > 0) {
+        container.innerHTML = loader;
+        out = '';
+        page--;
+        printPage();
+    }
+})
+function printPage() {
+    var url = "https://pokeapi.co/api/v2/pokemon/?limit=" + pagination + "&offset=" + page * pagination;
+    fetch(url)
+        .then(data => data.json())
+        .then(jsonObject => {
+            for (let i = 0; i < pagination; i++) {
+                const promise = fetch(jsonObject.results[i].url);
+                promise
+                    .then(pokeData => pokeData.json())
+                    .then(pokemon => {
+                        typesOut = '';
+                        for (let i = pokemon.types.length - 1; i >= 0; i--) {
+                            createType(pokemon.types[i].type.name);
+                        }
+                        const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id);
+                        createCard(pokeInfo);
+                    })
+                    .then(v => {
+                        container.innerHTML = out;
+                        checkType();
+                    })
+                    
+                    .catch(err => console.error(err));
+            }
+        })
+        .catch(err => console.error(err));
+}
+function createCard(pokeInfo) {
     out += `
         <div class="card">
             <h1>${pokeInfo[0]}</h1>
@@ -62,7 +75,7 @@ function createType(pokeType) {
     `
 }
 
-async function checkType() {
+function checkType() {
     var cards = document.querySelectorAll('.types');
     Array.from(cards).forEach(card => {
         var cardType = card.children[1].firstElementChild.textContent;
