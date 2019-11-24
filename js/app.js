@@ -10,6 +10,7 @@ document.querySelector('#next').addEventListener('click', function () {
     out = '';
     page++;
     printPage();
+    showPageCounter();
 })
 document.querySelector('#prev').addEventListener('click', function () {
     if (page > 0) {
@@ -17,6 +18,7 @@ document.querySelector('#prev').addEventListener('click', function () {
         out = '';
         page--;
         printPage();
+        showPageCounter();
     }
 })
 function printPage() {
@@ -90,3 +92,8 @@ function checkType() {
         }
     })
 }
+function showPageCounter() {
+    const pageCounter = document.querySelectorAll('#full-list p')[0];
+    pageCounter.innerHTML = "Page: " + parseInt(page + 1);
+}
+showPageCounter();
