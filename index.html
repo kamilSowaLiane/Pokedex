@@ -13,15 +13,20 @@
 <body>
     <div id="header">
         <div class="search-box">
-            <input type="text" name="" class="search-txt" placeholder="Type to search" />
+            <input type="text" name="" class="search-txt" placeholder="Type pokemon name or id" />
             <a class="search-btn" href="#">
                 <i class="fas fa-search"></i>
             </a>
         </div>
+        <div class="about-box">
+            <p>About</p>
+            <a class="about-link" target="_blank" href="https://pokeapi.co/">PokeAPI</a>
+            <a class="about-link" target="_blank" href="https://icons8.com/">Icons8</a>
+        </div>
     </div>
     <div id="left-panel">
         <div id="full-list">
-            <div class="nav-bar"><button class="btn btn1">generator</button></div>
+            <div class="nav-bar"><button class="nav-btn">generator</button></div>
             <p>Page:</p>
             <p>Move to page:<input type="text" maxlength="3" onkeypress="this.style.width = ((this.value.length + 1) * 20) + 'px';"><a class="move-btn"><i class="fas fa-arrow-right"></i></a></p>
             <div id="paging-nav">
@@ -30,8 +35,8 @@
             </div>
         </div>
         <div id="generator">
-                <div class="nav-bar"><button class="btn btn1">full list</button></div>
-                <button id="random">Random</button>
+            <div class="nav-bar"><button class="nav-btn">full list</button></div>
+            <button id="random">Random <img src="img/dice-solid.svg"></button>
         </div>
     </div>
     <div id="logo"><img src="img/logo.png"></div>

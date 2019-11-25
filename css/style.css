@@ -23,6 +23,57 @@ body {
     background-color: black;
     border-radius: 0px 37px 37px 0px;
 }
+.about-box {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    background: none;
+    border-radius: 40px;
+    padding: 10px;
+    transition: 0.4s;
+}
+.about-box p {
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+    color: white;
+    font-size: 0.65em;
+    padding: 5px 10px;
+    border-bottom: 2px solid white;
+}
+.about-link {
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    cursor: pointer;
+    font-size: 0em;
+    text-decoration: none;
+    transform-origin: 0 0;
+    background-image: linear-gradient(black, black), linear-gradient(white, white);
+    background-size: 0 5px, auto;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    transition: all .4s ease-out;
+}
+.about-box:hover > .about-link {
+    font-size: 0.65em;
+    padding: 5px 10px;
+}
+.about-link:hover {
+    background-size: 100% 5px, auto;
+}
+.about-box:hover {
+    background: white;
+}
+.about-box:hover > p {
+    color: black;
+    border-left: 2px solid black;
+}
 #left-panel {
     height: 700px;
     width: 15%;
@@ -46,8 +97,9 @@ body {
     transform: translate(-50%,-50%);
     text-align: center;
 }
-.btn{
+.nav-btn{
     background: none;
+    outline: none;
     border: 2px solid #fff;
     color: #fff;
     border-radius: 25px;
@@ -60,10 +112,10 @@ body {
     transition: color 0.4s linear;
     position: relative;
 }
-.btn:hover{
+.nav-btn:hover{
     color: #000;
 }
-.btn::before{
+.nav-btn::before{
     content: "";
     position: absolute;
     left: 0;
@@ -75,10 +127,10 @@ body {
     z-index: -1;
     transition: transform 0.5s;
 }
-.btn1::before{
+.nav-btn::before{
     transform: scaleX(0);
 }
-.btn1:hover::before{
+.nav-btn:hover::before{
     transform: scaleX(1);
 }
 #full-list p {

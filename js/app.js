@@ -5,6 +5,7 @@ var typesOut;
 var out = '';
 const loader = `<div class="loader-wrapper"><div class="loader-text">Loading...</div><span class="loader"><span class="loader-inner"></span></span></div>`;
 printPage();
+const generator = document.querySelector('#generator');
 const fullList = document.querySelector('#full-list');
 fullList.style.display = 'none';
 document.querySelector('#next').addEventListener('click', function () {
