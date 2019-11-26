@@ -11,7 +11,6 @@ document.querySelector('.full-list-btn').addEventListener('click', function() {
     fullListInit();
 })
 document.querySelector('.generator-btn').addEventListener('click', function() {
-    out = '';
     generatorInit();
 })
 document.querySelector('#random').addEventListener('click', function() {
@@ -19,6 +18,17 @@ document.querySelector('#random').addEventListener('click', function() {
     var searchPokemon = Math.floor(Math.random() * 807) + 1;
     typesOut = '';
     printSingleCard(searchPokemon);
+})
+document.querySelector('.search-btn').addEventListener('click', function() {
+    if (fullList.style.display == 'flex') {
+        generatorInit();
+    }
+    container.innerHTML = loader;
+    var input = document.querySelector('.search-txt').value;
+    var searchPokemon = input.toLowerCase();
+    typesOut = '';
+    printSingleCard(searchPokemon);
+    document.querySelector('.search-txt').value = '';
 })
 document.querySelector('.move-btn').addEventListener('click', function() {
     var pageValue = document.querySelector('.page-value').value;
@@ -90,6 +100,10 @@ function printSingleCard(searchPokemon) {
             container.innerHTML = out;
             checkType();
         })
+    .catch(e => {
+        alert('Connection timed out or incorrect input. Error message: ' + e);
+        generatorInit();
+    })
 }
 function createCard(pokeInfo) {
     out += `
@@ -147,6 +161,7 @@ function fullListInit() {
     printPage();
 }
 function generatorInit() {
+    out = '';
     fullList.style.display = 'none';
     generator.style.display = 'flex';
     container.innerHTML = `<div class="info">
@@ -157,5 +172,5 @@ function generatorInit() {
                         <h1>Full pokemon list</h1>
                         <h3>By clicking FULL LIST button you can see full pokemon list,<br /> it contains over 800 pokemons!
                         </div> 
-    `
+    `;
 }
