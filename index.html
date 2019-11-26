@@ -14,7 +14,7 @@
     <div id="header">
         <div class="search-box">
             <input type="text" name="" class="search-txt" placeholder="Type pokemon name or id" />
-            <a class="search-btn" href="#">
+            <a class="search-btn">
                 <i class="fas fa-search"></i>
             </a>
         </div>
@@ -26,16 +26,16 @@
     </div>
     <div id="left-panel">
         <div id="full-list">
-            <div class="nav-bar"><button class="nav-btn">generator</button></div>
+            <div class="nav-bar"><button class="nav-btn generator-btn">generator</button></div>
             <p>Page:</p>
-            <p>Move to page:<input type="text" maxlength="3" onkeypress="this.style.width = ((this.value.length + 1) * 20) + 'px';"><a class="move-btn"><i class="fas fa-arrow-right"></i></a></p>
+            <p>Move to page:<input class="page-value" type="text" maxlength="3" onkeypress="this.style.width = ((this.value.length + 1) * 20) + 'px';"><a class="move-btn"><i class="fas fa-arrow-right"></i></a></p>
             <div id="paging-nav">
-                <button id="prev"><i class="far fa-arrow-alt-circle-up"></i>Prev</button>
-                <button id="next"><i class="far fa-arrow-alt-circle-down"></i>Next</button>
+                <button id="prev"><i class="fas fa-arrow-left"></i>Prev</button>
+                <button id="next">Next<i class="fas fa-arrow-right"></i></button>
             </div>
         </div>
         <div id="generator">
-            <div class="nav-bar"><button class="nav-btn">full list</button></div>
+            <div class="nav-bar"><button class="nav-btn full-list-btn">full list</button></div>
             <button id="random">Random <img src="img/dice-solid.svg"></button>
         </div>
     </div>

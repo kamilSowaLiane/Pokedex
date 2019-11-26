@@ -1,19 +1,44 @@
 const container = document.querySelector('#container');
+const generator = document.querySelector('#generator');
+const fullList = document.querySelector('#full-list');
+const loader = `<div class="loader-wrapper"><div class="loader-text">Loading...</div><span class="loader"><span class="loader-inner"></span></span></div>`;
 var pagination = 8;
 var page = 0;
 var typesOut;
 var out = '';
-const loader = `<div class="loader-wrapper"><div class="loader-text">Loading...</div><span class="loader"><span class="loader-inner"></span></span></div>`;
-printPage();
-const generator = document.querySelector('#generator');
-const fullList = document.querySelector('#full-list');
-fullList.style.display = 'none';
-document.querySelector('#next').addEventListener('click', function () {
-    container.innerHTML = loader;
+generatorInit();
+document.querySelector('.full-list-btn').addEventListener('click', function() {
+    fullListInit();
+})
+document.querySelector('.generator-btn').addEventListener('click', function() {
     out = '';
-    page++;
-    printPage();
-    showPageCounter();
+    generatorInit();
+})
+document.querySelector('#random').addEventListener('click', function() {
+    container.innerHTML = loader;
+    var searchPokemon = Math.floor(Math.random() * 807) + 1;
+    typesOut = '';
+    printSingleCard(searchPokemon);
+})
+document.querySelector('.move-btn').addEventListener('click', function() {
+    var pageValue = document.querySelector('.page-value').value;
+    if(pageValue < 102) {
+        container.innerHTML = loader;
+        out = '';
+        page = parseInt(pageValue - 1);
+        printPage();
+        showPageCounter();
+        document.querySelector('.page-value').value = '';
+    }
+})
+document.querySelector('#next').addEventListener('click', function () {
+    if (page < 100) {
+        container.innerHTML = loader;
+        out = '';
+        page++;
+        printPage();
+        showPageCounter();
+    }
 })
 document.querySelector('#prev').addEventListener('click', function () {
     if (page > 0) {
@@ -34,22 +59,37 @@ function printPage() {
                 promise
                     .then(pokeData => pokeData.json())
                     .then(pokemon => {
-                        typesOut = '';
-                        for (let i = pokemon.types.length - 1; i >= 0; i--) {
+                        if (pokemon.id < 808) {
+                            typesOut = '';
+                            for (let i = pokemon.types.length - 1; i >= 0; i--) {
                             createType(pokemon.types[i].type.name);
+                            }
+                            const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id);
+                            createCard(pokeInfo);
+                            
+                            container.innerHTML = out;
+                            checkType();
                         }
-                        const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id);
-                        createCard(pokeInfo);
                     })
-                    .then(v => {
-                        container.innerHTML = out;
-                        checkType();
-                    })
-                    
-                    .catch(err => console.error(err));
+                .catch(err => console.error(err));
             }
         })
-        .catch(err => console.error(err));
+    .catch(err => console.error(err));
+}
+function printSingleCard(searchPokemon) {
+    var url = "https://pokeapi.co/api/v2/pokemon/" + searchPokemon + "/";
+    fetch(url)
+        .then(data => data.json())
+        .then(jsonObject => {
+            const pokemon = jsonObject;
+            for (let i = pokemon.types.length - 1; i >= 0; i--) {
+                createType(pokemon.types[i].type.name);
+            }
+            const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id);
+            createCard(pokeInfo);
+            container.innerHTML = out;
+            checkType();
+        })
 }
 function createCard(pokeInfo) {
     out += `
@@ -100,3 +140,22 @@ function showPageCounter() {
     pageCounter.innerHTML = "Page: " + parseInt(page + 1);
 }
 showPageCounter();
+function fullListInit() {
+    generator.style.display = 'none';
+    fullList.style.display = 'flex';
+    out = '';
+    printPage();
+}
+function generatorInit() {
+    fullList.style.display = 'none';
+    generator.style.display = 'flex';
+    container.innerHTML = `<div class="info">
+                        <h1>Pokemon card generator</h1>
+                        <h3>Here you can draw a random pokemon by clicking 'random' button<br />
+                        or<br />
+                        you can use search box to type in any pokemon name you know or their id between 1 and 807</h3>
+                        <h1>Full pokemon list</h1>
+                        <h3>By clicking FULL LIST button you can see full pokemon list,<br /> it contains over 800 pokemons!
+                        </div> 
+    `
+}
