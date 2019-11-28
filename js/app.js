@@ -7,19 +7,19 @@ var page = 0;
 var typesOut;
 var out = '';
 generatorInit();
-document.querySelector('.full-list-btn').addEventListener('click', function() {
+document.querySelector('.full-list-btn').addEventListener('click', function () {
     fullListInit();
 })
-document.querySelector('.generator-btn').addEventListener('click', function() {
+document.querySelector('.generator-btn').addEventListener('click', function () {
     generatorInit();
 })
-document.querySelector('#random').addEventListener('click', function() {
+document.querySelector('#random').addEventListener('click', function () {
     container.innerHTML = loader;
     var searchPokemon = Math.floor(Math.random() * 807) + 1;
     typesOut = '';
     printSingleCard(searchPokemon);
 })
-document.querySelector('.search-btn').addEventListener('click', function() {
+document.querySelector('.search-btn').addEventListener('click', function () {
     if (fullList.style.display == 'flex') {
         generatorInit();
     }
@@ -30,9 +30,9 @@ document.querySelector('.search-btn').addEventListener('click', function() {
     printSingleCard(searchPokemon);
     document.querySelector('.search-txt').value = '';
 })
-document.querySelector('.move-btn').addEventListener('click', function() {
+document.querySelector('.move-btn').addEventListener('click', function () {
     var pageValue = document.querySelector('.page-value').value;
-    if(pageValue < 102) {
+    if (pageValue < 102) {
         container.innerHTML = loader;
         out = '';
         page = parseInt(pageValue - 1);
@@ -59,79 +59,113 @@ document.querySelector('#prev').addEventListener('click', function () {
         showPageCounter();
     }
 })
+
 function printPage() {
     var url = "https://pokeapi.co/api/v2/pokemon/?limit=" + pagination + "&offset=" + page * pagination;
-    fetch(url)
-        .then(data => data.json())
+    fetch(url).then(data => data.json())
         .then(jsonObject => {
-            for (let i = 0; i < pagination; i++) {
-                const promise = fetch(jsonObject.results[i].url);
-                promise
-                    .then(pokeData => pokeData.json())
+            pokemonsArr = jsonObject.results;
+            return Promise.all(pokemonsArr.map(rawPokemon => {
+                return fetch(rawPokemon.url).then(pokeData => pokeData.json())
                     .then(pokemon => {
-                        if (pokemon.id < 808) {
-                            typesOut = '';
-                            for (let i = pokemon.types.length - 1; i >= 0; i--) {
-                            createType(pokemon.types[i].type.name);
-                            }
-                            const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id);
-                            createCard(pokeInfo);
-                            
-                            container.innerHTML = out;
-                            checkType();
+                        pokemon.types.sort((a, b) => (a.slot > b.slot) ? 1 : -1)
+                        pokemon.typesOut = ''
+                        for (let i = 0; i < pokemon.types.length; i++) {
+                            pokemon.typesOut += createType(pokemon.types[i].type.name);
                         }
+                        pokemon = {
+                            name: pokemon.species.name,
+                            imgUrl: pokemon.sprites.front_default,
+                            attack: pokemon.stats[4].stat.name,
+                            attackValue: pokemon.stats[4].base_stat,
+                            defense: pokemon.stats[3].stat.name,
+                            defenseValue: pokemon.stats[3].base_stat,
+                            speed: pokemon.stats[0].stat.name,
+                            speedValue: pokemon.stats[0].base_stat,
+                            hp: pokemon.stats[5].stat.name,
+                            hpValue: pokemon.stats[5].base_stat,
+                            height: pokemon.height,
+                            weight: pokemon.weight,
+                            id: pokemon.id,
+                            typesOut: pokemon.typesOut
+                        }
+                        return pokemon
                     })
-                .catch(err => console.error(err));
-            }
+            })).then(pokemons => {
+                createCard(pokemons);
+                checkType();
+            })
         })
-    .catch(err => console.error(err));
 }
+
 function printSingleCard(searchPokemon) {
     var url = "https://pokeapi.co/api/v2/pokemon/" + searchPokemon + "/";
     fetch(url)
         .then(data => data.json())
-        .then(jsonObject => {
-            const pokemon = jsonObject;
-            for (let i = pokemon.types.length - 1; i >= 0; i--) {
-                createType(pokemon.types[i].type.name);
+        .then(pokemon => {
+            pokemonsArr = [];
+            pokemon.types.sort((a, b) => (a.slot > b.slot) ? 1 : -1)
+            pokemon.typesOut = ''
+            for (let i = 0; i < pokemon.types.length; i++) {
+                pokemon.typesOut += createType(pokemon.types[i].type.name);
             }
-            const pokeInfo = new Array(pokemon.species.name, pokemon.sprites.front_default, pokemon.stats[4].stat.name, pokemon.stats[4].base_stat, pokemon.stats[3].stat.name, pokemon.stats[3].base_stat, pokemon.stats[0].stat.name, pokemon.stats[0].base_stat, pokemon.stats[5].stat.name, pokemon.stats[5].base_stat, pokemon.height, pokemon.weight, pokemon.id);
-            createCard(pokeInfo);
-            container.innerHTML = out;
+            pokeInfo = {
+                name: pokemon.species.name,
+                imgUrl: pokemon.sprites.front_default,
+                attack: pokemon.stats[4].stat.name,
+                attackValue: pokemon.stats[4].base_stat,
+                defense: pokemon.stats[3].stat.name,
+                defenseValue: pokemon.stats[3].base_stat,
+                speed: pokemon.stats[0].stat.name,
+                speedValue: pokemon.stats[0].base_stat,
+                hp: pokemon.stats[5].stat.name,
+                hpValue: pokemon.stats[5].base_stat,
+                height: pokemon.height,
+                weight: pokemon.weight,
+                id: pokemon.id,
+                typesOut: pokemon.typesOut
+            }
+            pokemonsArr.push(pokeInfo);
+            return pokemonsArr
+        }).then(pokemons => {
+            createCard(pokemons);
             checkType();
         })
     .catch(e => {
-        alert('Connection timed out or incorrect input. Error message: ' + e);
+        alert(`Connection timed out or incorrect input. Error message: ` + e);
         generatorInit();
     })
 }
-function createCard(pokeInfo) {
-    out += `
+
+function createCard(pokemons) {
+    for (let i = 0; i < pokemons.length; i++) {
+        out += `
         <div class="card">
-            <h1>${pokeInfo[0]}</h1>
-            <img src=${pokeInfo[1]}>
+            <h1>${pokemons[i].name}</h1>
+            <img src=${pokemons[i].imgUrl}>
             <div class="stats">
-                <div><img src="img/sword.png"><p>${pokeInfo[2]} ${pokeInfo[3]}</p></div>
-                <div><img src="img/shield.png"><p>${pokeInfo[4]} ${pokeInfo[5]}</p></div>
-                <div><img src="img/speed.png"><p>${pokeInfo[6]} ${pokeInfo[7]}</p></div>
-                <div><img src="img/heart.png"><p>${pokeInfo[8]} ${pokeInfo[9]}</p></div>
+                <div><img src="img/sword.png"><p>${pokemons[i].attack} ${pokemons[i].attackValue}</p></div>
+                <div><img src="img/shield.png"><p>${pokemons[i].defense} ${pokemons[i].defenseValue}</p></div>
+                <div><img src="img/speed.png"><p>${pokemons[i].speed} ${pokemons[i].speedValue}</p></div>
+                <div><img src="img/heart.png"><p>${pokemons[i].hp} ${pokemons[i].hpValue}</p></div>
             </div>
             <div class="types">
                 <p>Type:</p>
-                <div class="typeValues">${typesOut}</div>
+                <div class="typeValues">${pokemons[i].typesOut}</div>
             </div>
             <div class="misc">
-                <img src="img/weight.png"><p>Weight: ${pokeInfo[11] / 10} kg</p>
-                <img src="img/height.png"><p>Height: ${pokeInfo[10] / 10} m</p>
+                <img src="img/weight.png"><p>Weight: ${pokemons[i].weight / 10} kg</p>
+                <img src="img/height.png"><p>Height: ${pokemons[i].height / 10} m</p>
             </div>
-            <div class="id">${pokeInfo[12]}</div>
+            <div class="id">${pokemons[i].id}</div>
         </div>
-    `
+        `
+    }
+    container.innerHTML = out;
 }
+
 function createType(pokeType) {
-    typesOut += `
-        <p class="${pokeType}">${pokeType}</p>
-    `
+    return `<p class="${pokeType}">${pokeType}</p>`
 }
 
 function checkType() {
@@ -149,25 +183,28 @@ function checkType() {
         }
     })
 }
+
 function showPageCounter() {
     const pageCounter = document.querySelectorAll('#full-list p')[0];
     pageCounter.innerHTML = "Page: " + parseInt(page + 1);
 }
 showPageCounter();
+
 function fullListInit() {
     generator.style.display = 'none';
     fullList.style.display = 'flex';
     out = '';
     printPage();
 }
+
 function generatorInit() {
     out = '';
     fullList.style.display = 'none';
     generator.style.display = 'flex';
     container.innerHTML = `<div class="info">
                         <h1>Pokemon card generator</h1>
-                        <h3>Here you can draw a random pokemon by clicking 'random' button<br />
-                        or<br />
+                        <h3>On this page you can create your own pokemon list <br /> either by drawing 
+                        random pokemon with 'random' button or<br />
                         you can use search box to type in any pokemon name you know or their id between 1 and 807</h3>
                         <h1>Full pokemon list</h1>
                         <h3>By clicking FULL LIST button you can see full pokemon list,<br /> it contains over 800 pokemons!
