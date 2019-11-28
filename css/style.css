@@ -2,8 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: 32px;
     font-family: 'Lato', 'sans-serif';
+    font-size: 1.5vw;
 }
 body {
     background: rgba(30,30,30,1);
@@ -19,7 +19,7 @@ body {
 #header {
     position: relative;
     width: 90%;
-    height: 75px;
+    height: 3.75vw;
     background-color: black;
     border-radius: 0px 37px 37px 0px;
 }
@@ -30,7 +30,7 @@ body {
     transform: translate(-50%, -50%);
     background: none;
     border-radius: 40px;
-    padding: 10px;
+    padding: 0.5vw;
     transition: 0.4s;
 }
 .about-box p {
@@ -75,7 +75,7 @@ body {
     border-left: 2px solid black;
 }
 #left-panel {
-    height: 700px;
+    height: 35vw;
     width: 15%;
     background-color: #111111;
     border-radius: 0 0 135px 135px;
@@ -91,10 +91,7 @@ body {
     align-items: center;
 }
 .nav-bar{
-    position: relative;
-    top: 0%;
-    left: 40%;
-    transform: translate(-50%,-50%);
+    transform: translate(-0,-0);
     text-align: center;
 }
 .nav-btn{
@@ -106,7 +103,7 @@ body {
     text-transform: uppercase;
     font-size: 0.5em;
     padding: 12px 20px;
-    min-width: 200px;
+    width: 10vw;
     margin: 10px;
     cursor: pointer;
     transition: color 0.4s linear;
@@ -133,18 +130,18 @@ body {
 .nav-btn:hover::before{
     transform: scaleX(1);
 }
-#full-list p {
+.info-box {
     background-color: white;
     width: fit-content;
     font-size: 0.75em;
-    height: 50px;
+    height: 2.5vw;
     border-radius: 25px;
     font-size: 0.65em;
     padding: 10px;
     display: flex;
     align-items: center;
 }
-#full-list p input {
+.info-box input {
     border: none;
     outline: none;
     background: none;
@@ -164,8 +161,6 @@ body {
     text-align: center;
 }
 #paging-nav button, #random {
-    padding: 5px;
-    margin: 15px;
     color: white;
     border: none;
     outline: none;
@@ -174,6 +169,9 @@ body {
     background-repeat: no-repeat;
     background-position: center bottom;
     transition: all .2s ease-out;
+}
+#paging-nav > :first-child {
+    margin-right: 2vw;
 }
 #paging-nav button svg {
     padding: 0px 5px 3px 5px;
@@ -191,14 +189,14 @@ body {
     left: 0%;
     top: 42px;
     width: 20%;
-    height: 150px;
+    height: 7.8vw;
     background-color: #f57327;
     border-radius: 0px 75px 75px 0px;
 }
 #logo img {
     padding-top: 5%;
-    width: 300px;
-    height: 130px;
+    width: 15.5vw;
+    height: 6.8vw;
 }
 #container {
     position: absolute;
@@ -208,7 +206,7 @@ body {
     top: 10%;
     right: 0%;
     width: 80%;
-    height: 90%;
+    height: 45vw;
 }
 .info {
     position: absolute;
@@ -238,9 +236,9 @@ body {
 }
 .card {
     position: relative;
-    margin: 5px 15px;
-    width: 350px;
-    height: 420px;
+    margin: 0.1em 0.45em;
+    width: 18.3vw;
+    height: 22vw;
     border: 3px solid black;
     border-radius: 25px;
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
@@ -255,22 +253,22 @@ body {
     border-radius: 22px 22px 0 0;
 }
 .card>img {
-    margin-left: calc(50% - 72px);
-    width: 144px;
-    height: 144px;
+    margin-left: calc(50% - 3.9vw);
+    width: 7.8vw;
+    height: 7.8vw;
 }
 .stats {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    height: 120px;
+    height: 6vw;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
 }
 .stats img {
-    width: 45px;
-    height: 45px;
+    width: 2.4vw;
+    height: 2.4vw;
 }
 .stats div {
     display: flex;
@@ -280,13 +278,14 @@ body {
 .stats div p {
     text-transform: uppercase;
     letter-spacing: -1px;
-    font-size: 24px;
+    font-size: 1.2vw;
     padding-top: 10px;
 }
 .types p{
     font-size: 0.75em;
     width: fit-content;
     margin: 0 auto 0 auto;
+    padding: 0.3em 0;
 }
 .typeValues {
     display: flex;
@@ -334,12 +333,14 @@ body {
 }
 .misc {
     display: flex;
-    padding-top: 17px;
-    width: 300px;
+    align-items: center;
+    position: absolute;
+    width: 20vw;
+    bottom: 0;
 }
 .misc img {
-    height: 20px;
-    padding-left: 20px;
+    height: 0.75em;
+    padding-left: 0.75em;
 }
 .misc p{
     font-size: 0.5em;
@@ -351,14 +352,14 @@ body {
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 44px;
-    height: 44px;
+    width: 2.3vw;
+    height: 2.3vw;
     border-radius: 23px;
     color: white;
     font-size: 0.75em;
     display: flex;
     justify-content: space-evenly;
-    padding-top: 10px;
+    align-items: center;
 }
 .loader-wrapper {
     width: 100%;
@@ -411,7 +412,7 @@ body {
     left: 40%;
     transform: translate(-50%, -50%);
     background: white;
-    height: 50px;
+    height: 2.6vw;
     border-radius: 25px;
     padding: 10px;
     display: flex;
@@ -423,8 +424,8 @@ body {
 }
    
 .search-btn, .move-btn {
-    width: 45px;
-    height: 45px;
+    width: 2.2vw;
+    height: 2.2vw;
     margin-right: -5px;
     float: right;
     font-size: 0.7em;
@@ -443,16 +444,8 @@ body {
     outline: none;
     float: left;
     padding: 0;
-    font-size: 20px;
-    width: 240px;
+    font-size: 0.65em;
+    width: 15vw;
     font-weight: bold;
     line-height: 30px;
-}
-@media (max-width: 1280px) {
-    #logo img {
-        margin-top: 5%;
-        padding-top: 5%;
-        width: 230px;
-        height: 100px;
-    }
 }
