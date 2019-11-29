@@ -4,7 +4,6 @@ const fullList = document.querySelector('#full-list');
 const loader = `<div class="loader-wrapper"><div class="loader-text">Loading...</div><span class="loader"><span class="loader-inner"></span></span></div>`;
 var pagination = 8;
 var page = 0;
-var typesOut;
 var out = '';
 generatorInit();
 document.querySelector('.full-list-btn').addEventListener('click', function () {
@@ -69,9 +68,9 @@ function printPage() {
                 return fetch(rawPokemon.url).then(pokeData => pokeData.json())
                     .then(pokemon => {
                         pokemon.types.sort((a, b) => (a.slot > b.slot) ? 1 : -1)
-                        pokemon.typesOut = ''
+                        typesOut = ''
                         for (let i = 0; i < pokemon.types.length; i++) {
-                            pokemon.typesOut += createType(pokemon.types[i].type.name);
+                            typesOut += createType(pokemon.types[i].type.name);
                         }
                         pokemon = {
                             name: pokemon.species.name,
@@ -87,12 +86,12 @@ function printPage() {
                             height: pokemon.height,
                             weight: pokemon.weight,
                             id: pokemon.id,
-                            typesOut: pokemon.typesOut
+                            typesOut: typesOut
                         }
                         return pokemon
                     })
             })).then(pokemons => {
-                createCard(pokemons);
+                createCards(pokemons);
                 checkType();
             })
         })
@@ -103,7 +102,6 @@ function printSingleCard(searchPokemon) {
     fetch(url)
         .then(data => data.json())
         .then(pokemon => {
-            pokemonsArr = [];
             pokemon.types.sort((a, b) => (a.slot > b.slot) ? 1 : -1)
             pokemon.typesOut = ''
             for (let i = 0; i < pokemon.types.length; i++) {
@@ -123,47 +121,48 @@ function printSingleCard(searchPokemon) {
                 height: pokemon.height,
                 weight: pokemon.weight,
                 id: pokemon.id,
-                typesOut: pokemon.typesOut
+                typesOut: typesOut
             }
-            pokemonsArr.push(pokeInfo);
-            return pokemonsArr
-        }).then(pokemons => {
-            createCard(pokemons);
+            return pokeInfo
+        }).then(pokemon => {
+            createCard(pokemon);
             checkType();
         })
-    .catch(e => {
-        alert(`Connection timed out or incorrect input. Error message: ` + e);
-        generatorInit();
-    })
+        .catch(e => {
+            alert(`Connection timed out or incorrect input. Error message: ` + e);
+            generatorInit();
+        })
 }
 
-function createCard(pokemons) {
-    for (let i = 0; i < pokemons.length; i++) {
-        out += `
+function createCard(pokemon) {
+    out += `
         <div class="card">
-            <h1>${pokemons[i].name}</h1>
-            <img src=${pokemons[i].imgUrl}>
+            <h1>${pokemon.name}</h1>
+            <img src=${pokemon.imgUrl}>
             <div class="stats">
-                <div><img src="img/sword.png"><p>${pokemons[i].attack} ${pokemons[i].attackValue}</p></div>
-                <div><img src="img/shield.png"><p>${pokemons[i].defense} ${pokemons[i].defenseValue}</p></div>
-                <div><img src="img/speed.png"><p>${pokemons[i].speed} ${pokemons[i].speedValue}</p></div>
-                <div><img src="img/heart.png"><p>${pokemons[i].hp} ${pokemons[i].hpValue}</p></div>
+                <div><img src="img/sword.png"><p>${pokemon.attack} ${pokemon.attackValue}</p></div>
+                <div><img src="img/shield.png"><p>${pokemon.defense} ${pokemon.defenseValue}</p></div>
+                <div><img src="img/speed.png"><p>${pokemon.speed} ${pokemon.speedValue}</p></div>
+                <div><img src="img/heart.png"><p>${pokemon.hp} ${pokemon.hpValue}</p></div>
             </div>
             <div class="types">
                 <p>Type:</p>
-                <div class="typeValues">${pokemons[i].typesOut}</div>
+                <div class="typeValues">${pokemon.typesOut}</div>
             </div>
             <div class="misc">
-                <img src="img/weight.png"><p>Weight: ${pokemons[i].weight / 10} kg</p>
-                <img src="img/height.png"><p>Height: ${pokemons[i].height / 10} m</p>
+                <img src="img/weight.png"><p>Weight: ${pokemon.weight / 10} kg</p>
+                <img src="img/height.png"><p>Height: ${pokemon.height / 10} m</p>
             </div>
-            <div class="id">${pokemons[i].id}</div>
+            <div class="id">${pokemon.id}</div>
         </div>
         `
-    }
     container.innerHTML = out;
 }
-
+function createCards(pokemons) {
+    for (let i = 0; i < pokemons.length; i++) {
+        createCard(pokemons[i]);
+    }
+}
 function createType(pokeType) {
     return `<p class="${pokeType}">${pokeType}</p>`
 }
