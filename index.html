@@ -18,6 +18,7 @@
                 <i class="fas fa-search"></i>
             </a>
         </div>
+        <p class="search-error">This pokemon already exist on your list!</p>
         <div class="about-box">
             <p>About</p>
             <a class="about-link" target="_blank" href="https://pokeapi.co/">PokeAPI</a>
@@ -29,7 +30,8 @@
             <div class="nav-bar"><button class="nav-btn generator-btn">generator</button></div>
             <p class="info-box">Page:</p>
             <span id="info">Max. 101</span>
-            <p class="info-box">Move to page:<input class="page-value" type="text" maxlength="3" onkeypress="this.style.width = ((this.value.length + 1) * 0.65) + 'em';"><a class="move-btn"><i class="fas fa-arrow-right"></i></a></p>
+            <div class="info-box"><input class="page-value" type="text" maxlength="3" placeholder="Move to page"><a class="move-btn"><i class="fas fa-arrow-right"></i></a></div>
+            <p class="error-msg">Please type in any page between 1 & 101</p>
             <div id="paging-nav">
                 <button id="prev"><i class="fas fa-arrow-left"></i>Prev</button>
                 <button id="next">Next<i class="fas fa-arrow-right"></i></button>

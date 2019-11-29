@@ -6,44 +6,44 @@ var pagination = 8;
 var page = 0;
 var out = '';
 generatorInit();
-document.querySelector('.full-list-btn').addEventListener('click', function () {
-    fullListInit();
-})
-document.querySelector('.generator-btn').addEventListener('click', function () {
-    generatorInit();
-})
+document.querySelector('.full-list-btn').addEventListener('click', fullListInit);
+document.querySelector('.generator-btn').addEventListener('click', generatorInit);
 document.querySelector('#random').addEventListener('click', function () {
     container.innerHTML = loader;
     var searchPokemon = Math.floor(Math.random() * 807) + 1;
-    typesOut = '';
     printSingleCard(searchPokemon);
 })
 document.querySelector('.search-btn').addEventListener('click', function () {
     if (fullList.style.display == 'flex') {
         generatorInit();
     }
-    container.innerHTML = loader;
     var input = document.querySelector('.search-txt').value;
-    var searchPokemon = input.toLowerCase();
-    typesOut = '';
-    printSingleCard(searchPokemon);
-    document.querySelector('.search-txt').value = '';
+    if (checkPresent(input) !== true ) {
+        container.innerHTML = loader;  
+        var searchPokemon = input.toLowerCase();
+        printSingleCard(searchPokemon);
+        document.querySelector('.search-txt').value = '';
+    } else {
+        document.querySelector('.search-error').style.display = 'block';
+        setTimeout(function () { document.querySelector('.search-error').style.display = 'none' }, 4000);
+    }
 })
 document.querySelector('.move-btn').addEventListener('click', function () {
     var pageValue = document.querySelector('.page-value').value;
     if (pageValue < 102) {
         container.innerHTML = loader;
-        out = '';
         page = parseInt(pageValue - 1);
         printPage();
         showPageCounter();
         document.querySelector('.page-value').value = '';
+    } else {
+        document.querySelector('.error-msg').style.display = 'block';
+        setTimeout(function () { document.querySelector('.error-msg').style.display = 'none' }, 4000);
     }
 })
 document.querySelector('#next').addEventListener('click', function () {
     if (page < 100) {
         container.innerHTML = loader;
-        out = '';
         page++;
         printPage();
         showPageCounter();
@@ -52,13 +52,11 @@ document.querySelector('#next').addEventListener('click', function () {
 document.querySelector('#prev').addEventListener('click', function () {
     if (page > 0) {
         container.innerHTML = loader;
-        out = '';
         page--;
         printPage();
         showPageCounter();
     }
 })
-
 function printPage() {
     var url = "https://pokeapi.co/api/v2/pokemon/?limit=" + pagination + "&offset=" + page * pagination;
     fetch(url).then(data => data.json())
@@ -66,64 +64,24 @@ function printPage() {
             pokemonsArr = jsonObject.results;
             return Promise.all(pokemonsArr.map(rawPokemon => {
                 return fetch(rawPokemon.url).then(pokeData => pokeData.json())
-                    .then(pokemon => {
-                        pokemon.types.sort((a, b) => (a.slot > b.slot) ? 1 : -1)
-                        typesOut = ''
-                        for (let i = 0; i < pokemon.types.length; i++) {
-                            typesOut += createType(pokemon.types[i].type.name);
-                        }
-                        pokemon = {
-                            name: pokemon.species.name,
-                            imgUrl: pokemon.sprites.front_default,
-                            attack: pokemon.stats[4].stat.name,
-                            attackValue: pokemon.stats[4].base_stat,
-                            defense: pokemon.stats[3].stat.name,
-                            defenseValue: pokemon.stats[3].base_stat,
-                            speed: pokemon.stats[0].stat.name,
-                            speedValue: pokemon.stats[0].base_stat,
-                            hp: pokemon.stats[5].stat.name,
-                            hpValue: pokemon.stats[5].base_stat,
-                            height: pokemon.height,
-                            weight: pokemon.weight,
-                            id: pokemon.id,
-                            typesOut: typesOut
-                        }
+                    .then(pokeInfo => {
+                        createPokeObject(pokeInfo);
                         return pokemon
                     })
             })).then(pokemons => {
+                out = '';
                 createCards(pokemons);
                 checkType();
             })
         })
 }
-
 function printSingleCard(searchPokemon) {
     var url = "https://pokeapi.co/api/v2/pokemon/" + searchPokemon + "/";
     fetch(url)
         .then(data => data.json())
-        .then(pokemon => {
-            pokemon.types.sort((a, b) => (a.slot > b.slot) ? 1 : -1)
-            pokemon.typesOut = ''
-            for (let i = 0; i < pokemon.types.length; i++) {
-                pokemon.typesOut += createType(pokemon.types[i].type.name);
-            }
-            pokeInfo = {
-                name: pokemon.species.name,
-                imgUrl: pokemon.sprites.front_default,
-                attack: pokemon.stats[4].stat.name,
-                attackValue: pokemon.stats[4].base_stat,
-                defense: pokemon.stats[3].stat.name,
-                defenseValue: pokemon.stats[3].base_stat,
-                speed: pokemon.stats[0].stat.name,
-                speedValue: pokemon.stats[0].base_stat,
-                hp: pokemon.stats[5].stat.name,
-                hpValue: pokemon.stats[5].base_stat,
-                height: pokemon.height,
-                weight: pokemon.weight,
-                id: pokemon.id,
-                typesOut: typesOut
-            }
-            return pokeInfo
+        .then(pokeInfo => {
+            createPokeObject(pokeInfo);
+            return pokemon
         }).then(pokemon => {
             createCard(pokemon);
             checkType();
@@ -133,7 +91,30 @@ function printSingleCard(searchPokemon) {
             generatorInit();
         })
 }
-
+function createPokeObject(pokeInfo) {
+    pokeInfo.types.sort((a, b) => (a.slot > b.slot) ? 1 : -1)
+    typesOut = ''
+    for (let i = 0; i < pokeInfo.types.length; i++) {
+        typesOut += createType(pokeInfo.types[i].type.name);
+    }
+    pokemon = {
+        name: pokeInfo.species.name,
+        imgUrl: pokeInfo.sprites.front_default,
+        attack: pokeInfo.stats[4].stat.name,
+        attackValue: pokeInfo.stats[4].base_stat,
+        defense: pokeInfo.stats[3].stat.name,
+        defenseValue: pokeInfo.stats[3].base_stat,
+        speed: pokeInfo.stats[0].stat.name,
+        speedValue: pokeInfo.stats[0].base_stat,
+        hp: pokeInfo.stats[5].stat.name,
+        hpValue: pokeInfo.stats[5].base_stat,
+        height: pokeInfo.height,
+        weight: pokeInfo.weight,
+        id: pokeInfo.id,
+        typesOut: typesOut
+    }
+    return pokemon
+}
 function createCard(pokemon) {
     out += `
         <div class="card">
@@ -168,34 +149,39 @@ function createType(pokeType) {
 }
 
 function checkType() {
-    var cards = document.querySelectorAll('.types');
-    Array.from(cards).forEach(card => {
-        var cardType = card.children[1].firstElementChild.textContent;
+    var types = document.querySelectorAll('.types');
+    Array.from(types).forEach(type => {
+        var cardType = type.children[1].firstElementChild.textContent;
         var typeArr = ['bug', 'dark', 'normal', 'fire', 'dragon', 'flying', 'electric', 'fairy', 'fighting', 'ghost', 'poison', 'grass', 'ground', 'ice', 'steel', 'psychic', 'rock', 'water'];
         for (let i = 0; i < typeArr.length; i++) {
             if (cardType == typeArr[i]) {
-                card.parentElement.firstElementChild.classList.add(typeArr[i]);
-                card.parentElement.lastElementChild.classList.add(typeArr[i]);
-                card.parentElement.classList.add(typeArr[i] + '2');
+                type.parentElement.firstElementChild.classList.add(typeArr[i]);
+                type.parentElement.lastElementChild.classList.add(typeArr[i]);
+                type.parentElement.classList.add(typeArr[i] + '2');
                 break;
             }
         }
     })
 }
-
+function checkPresent(input) {
+    var inputValue = input.toLowerCase();
+    var cards = document.querySelectorAll('.card');
+    for (var i = 0; i < cards.length; i++) {
+        if (cards[i].firstElementChild.textContent === inputValue) {
+            return true
+        }
+    }  
+}
 function showPageCounter() {
     const pageCounter = document.querySelectorAll('#full-list p')[0];
     pageCounter.innerHTML = "Page: " + parseInt(page + 1);
 }
-showPageCounter();
-
 function fullListInit() {
     generator.style.display = 'none';
     fullList.style.display = 'flex';
-    out = '';
     printPage();
+    showPageCounter();
 }
-
 function generatorInit() {
     out = '';
     fullList.style.display = 'none';
