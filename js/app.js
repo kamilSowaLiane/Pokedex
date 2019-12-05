@@ -65,8 +65,7 @@ function printPage() {
             return Promise.all(pokemonsArr.map(rawPokemon => {
                 return fetch(rawPokemon.url).then(pokeData => pokeData.json())
                     .then(pokeInfo => {
-                        createPokeObject(pokeInfo);
-                        return pokemon
+                        return createPokeObject(pokeInfo)
                     })
             })).then(pokemons => {
                 out = '';
@@ -80,8 +79,7 @@ function printSingleCard(searchPokemon) {
     fetch(url)
         .then(data => data.json())
         .then(pokeInfo => {
-            createPokeObject(pokeInfo);
-            return pokemon
+            return createPokeObject(pokeInfo)
         }).then(pokemon => {
             createCard(pokemon);
             checkType();
@@ -196,3 +194,4 @@ function generatorInit() {
                         </div> 
     `;
 }
+console.log(window.innerWidth)

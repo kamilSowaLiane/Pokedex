@@ -196,7 +196,7 @@ body {
     justify-content: space-around;
     display: flex;
     left: 0%;
-    top: 42px;
+    top: 2vw;
     width: 20%;
     height: 7.8vw;
     background-color: #f57327;
@@ -457,4 +457,121 @@ body {
     width: 15vw;
     font-weight: bold;
     line-height: 30px;
+}
+@media (max-width: 600px) {
+    .card {
+        border-radius: 15px;
+        border-width: 1px;
+    }
+}
+@media (max-width: 1000px) {
+    .card {
+        margin: 0.2em 0.45em;
+        border-radius: 20px;
+        border-width: 2px;
+        width: 43%;
+        height: 75%;
+    }
+    #container {
+        align-items: center;
+        justify-content: center;
+        width: 72%;
+    }
+    #left-panel {
+        height: 55vw;
+        width: 25%;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+    }
+    #logo {
+        width: 32%;
+        height: 12.8vw;
+    }
+    #logo img {
+        width: 25vw;
+        height: 11.5vw;
+    }
+    #header {
+        height: 5vw;
+        width: 95%;
+    }
+    .search-box {
+        left: 50%;
+        height: 3.8vw;
+    }
+    .search-box input {
+        font-size: 1em;
+        width: 20vw;
+    }
+    .search-btn, .move-btn {
+        width: 3.2vw;
+        height: 3.2vw;
+    }
+    .about-box {
+        left: 80%;
+    }
+    .about-box p {
+        font-size: 0.75em;
+    }
+    .about-box:hover > .about-link {
+        font-size: 0.75em;
+    }
+    .nav-btn {
+        font-size: 0.8em;
+        width: 16vw;
+    }
+    #random {
+        font-size: 1.3em;
+    }
+    .info-box {
+        font-size: 1em;
+        height: 3.7vw;
+    }
+    #info {
+        font-size: 0.7em;
+    }
+    .info-box input {
+        width: 12vw;
+    }
+    #paging-nav button {
+        font-size: 1.5em;
+    }
+    .id {
+        width: 3.6vw;
+        height: 3.6vw;
+        font-size: 1.1em;
+    }
+    .card h1 {
+        font-size: 1.5em;
+        border-radius: 19px 19px 0 0;
+    }
+    .card>img {
+        margin-left: calc(50% - 6vw);
+        width: 12vw;
+        height: 12vw;
+    }
+    .stats {
+        height: 10vw;
+    }
+    .stats div p{
+        font-size: 1.3em;
+    }
+    .stats img {
+        width: 4.3vw;
+        height: 4.3vw;
+    }
+    .types p {
+        font-size: 1.1em;
+    }
+    .misc {
+        width: 100%;
+    }
+    .misc p {
+        font-size: 0.9em;
+    }
+    .misc img {
+        height: 1.1em;
+        padding-left: 1.3em;
+    }
 }
