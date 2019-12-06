@@ -458,13 +458,10 @@ body {
     font-weight: bold;
     line-height: 30px;
 }
-@media (max-width: 600px) {
-    .card {
-        border-radius: 15px;
-        border-width: 1px;
-    }
-}
 @media (max-width: 1000px) {
+    .info {
+        width: 80%;
+    }
     .card {
         margin: 0.2em 0.45em;
         border-radius: 20px;
@@ -480,8 +477,6 @@ body {
     #left-panel {
         height: 55vw;
         width: 25%;
-        position: -webkit-sticky;
-        position: sticky;
         top: 0;
     }
     #logo {
@@ -494,7 +489,8 @@ body {
     }
     #header {
         height: 5vw;
-        width: 95%;
+        width: 100%;
+        border-radius: 0;
     }
     .search-box {
         left: 50%;
@@ -509,7 +505,7 @@ body {
         height: 3.2vw;
     }
     .about-box {
-        left: 80%;
+        left: 78%;
     }
     .about-box p {
         font-size: 0.75em;
@@ -573,5 +569,123 @@ body {
     .misc img {
         height: 1.1em;
         padding-left: 1.3em;
+    }
+}
+@media (max-width: 600px) {
+    .info {
+        top: 100%;
+        width: 75%;
+        height: 75vw;
+    }
+    #container h3 {
+        width: 100%;
+        font-size: 1.2em;
+        padding: 5vw 0;
+    }
+    .info h1 {
+        font-size: 2em;
+    }
+    .card {
+        border-radius: 18px;
+        width: 70%;
+        height: 120%;
+    }
+    #header {
+        width: 100%;
+        border-radius: 0;
+        height: 7vw;
+    }
+    .info-box {
+        font-size: 1.4em;
+        height: 5vw;
+    }
+    .search-box {
+        height: 5vw;
+    }
+    .search-box input {
+        font-size: 1.1em;
+        width: 20vw;
+    }
+    .search-btn, .move-btn {
+        width: 4vw;
+        height: 4vw;
+        font-size: 1.2em;
+    }
+    .about-box {
+        left: 76%;
+    }
+    .search-box {
+        left: 50%;
+    }
+    #logo {
+        width: 37%;
+        height: 13.5vw;
+    }
+    #logo img {
+        width: 27.5vw;
+        height: 12.7vw;
+    }
+    #left-panel {
+        width: 30%;
+        height: 70vw;
+    }
+    #full-list {
+        top: 8%;
+        height: 55vw;
+    }
+    .nav-btn {
+        font-size: 1em;
+        width: 20vw;
+        border-width: 1px;
+    }
+    #random {
+        font-size: 2em;
+    }
+    #random img{
+        width: 5vw;
+        height: 5vw;
+    }
+    #info {
+        font-size: 1em;
+    }
+    .info-box input {
+        width: 14vw;
+    }
+    #paging-nav button {
+        font-size: 2em;
+    }
+    .card h1 {
+        font-size: 2.5em;
+        border-radius: 16px 16px 0 0;
+    }
+    .card>img {
+        margin-left: calc(50% - 9vw);
+        width: 18vw;
+        height: 18vw;
+    }
+    .stats {
+        height: 15vw;
+    }
+    .stats div p{
+        font-size: 2em;
+    }
+    .stats img {
+        width: 6vw;
+        height: 6vw;
+    }
+    .types p {
+        font-size: 2em;
+    }
+    .misc p {
+        font-size: 1.5em;
+    }
+    .misc img {
+        height: 1.7em;
+        padding-left: 1.5em;
+    }
+    .id {
+        width: 5.5vw;
+        height: 5.5vw;
+        font-size: 1.5em;
     }
 }
